@@ -7,43 +7,50 @@ displayBlock.appendChild(bookList);
 
 const newBookButton = document.querySelectorAll("button");
 
-let myLibrary = [
+
+//Set up our library array here:
+let myLibrary = [ 
 {title:"The Hobbit", author:"JRR Tolkien", pages:295, read:true},
 {title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true},
 {title:"Name of the Wind", author:"Patrick Rothfuss", pages:662, read:false},
 {title:"Throne of Glass", author:"Sara J. Maas",pages:416, read:true}
 ];
 
-function book(title, author, pages,read){
-    this.title=title;
-    this.author=author;
-    this.pages=pages;
-    this.read=read;
-    this.info=function(){
-    if(this.read===false){
-        return(title+" by "+author+", "+pages+" pages, not yet read");
+//class to create a book
+class Book{
+
+    //constructor for book
+    constructor(title,author,pages,read){
+        this.title =title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read; 
     }
-    else{
-        return(title+" by "+author+", "+pages+" pages, read");
-    }
+
+    //getter for book info
+    get info(){
+        if(this.read===false){
+            return(title+" by "+author+", "+pages+" pages, not yet read");
+        }
+        else{
+            return(title+" by "+author+", "+pages+" pages, not yet read");
+        }
     }
 }
 
+//function to add a book to my library
 function addBookToLibrary(){
     let title = prompt("What is the book's title?", "The Night Circus");
     let author = prompt("What is the book's author?","Erin Morganstern");
     let pages = prompt("How many pages is the book?","387");
     let read = prompt("Have you read this book? (Y/N)","N");
-    let myBook = Object.create(book);
-        myBook.title=title;
-        myBook.author=author;
-        myBook.pages=pages;
     if(read==="Y"){
-        myBook.read=true;
+        read=true;
     }
     else{
-        myBook.read=false;
+        read=false;
     }
+    let myBook = new Book(title, author, pages, read);
     myLibrary.push(myBook);
     displayLibrary(myLibrary);
 }
