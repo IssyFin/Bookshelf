@@ -9,8 +9,29 @@
     <title>Bookshelf</title>
 </head>
 <body>
-    <button class="newBook">New Book</button>
     <div id="displayBlock"></div>
     <div id="shelf"></div>
+    <div id="description" class="hidden">
+        <span class="titleDetail">Title</span>
+        <span class="authorDetail">Author</span>
+        <span class="pageDetail">Page Count</span>
+        <span class="readDetail">Read?</span>
+    </div>
+    <form>
+        <span class="formTitle">Add a new book:</span>
+        <label for="title">Title: </label>
+        <input id="title" name="title" type="text" aria-label="title" placeholder = "The Night Circus" >
+        <label for="author">Author: </label>
+        <input id="author" name="author" type="text" aria-label="author" placeholder="Erin Morganstern">
+        <label for="pageCount">Page Count: </label>
+        <input id="pageCount" name="pageCount" type="number" aria-label="page count" placeholder="387">
+        <label for="readBook">Read: </label>
+        <select id="readBook" name="readBook" type="checkbox" aria-label="read book">
+            <option value="Yes">Read</option>
+            <option value="No" selected>Not yet read</option>
+        </select>
+        <div id="errorMessage"></div>
+    </form>
+    <button class="newBook">New Book</button>
 </body>
 </html>

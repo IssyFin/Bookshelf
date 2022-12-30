@@ -16,6 +16,29 @@ let myLibrary = [
 {title:"Throne of Glass", author:"Sara J. Maas",pages:416, read:true}
 ];
 
+function bindEvents(){
+    let displayBlock = document.getElementById("description");
+    displayBlock.addEventListener("click",(e)=>{
+        hideBookInfo();
+    })
+    let titleInput = document.getElementById("title");
+    let authorInput = document.getElementById("author");
+    let pageCountInput = document.getElementById("pageCount");
+    let readInput = document.getElementById("readBook");
+    titleInput.addEventListener("focusout",(event)=>{
+        showError();}
+    )
+    authorInput.addEventListener("focusout",(event)=>{
+        showError();}
+    )
+    pageCountInput.addEventListener("focusout",(event)=>{
+        showError();}
+    )
+    readInput.addEventListener("focusout",(event)=>{
+        showError();}
+    )
+}
+
 //class to create a book
 class Book{
 
@@ -40,11 +63,15 @@ class Book{
 
 //function to add a book to my library
 function addBookToLibrary(){
-    let title = prompt("What is the book's title?", "The Night Circus");
-    let author = prompt("What is the book's author?","Erin Morganstern");
-    let pages = prompt("How many pages is the book?","387");
-    let read = prompt("Have you read this book? (Y/N)","N");
-    if(read==="Y"){
+    let titleInput = document.getElementById("title");
+    let authorInput = document.getElementById("author");
+    let pagesInput = document.getElementById("pageCount");
+    let readInput = document.getElementById("readBook");
+    let title = titleInput.value;
+    let author = authorInput.value;
+    let pages = pagesInput.value;
+    let read=readInput.value;
+    if(read==="Yes"){
         read=true;
     }
     else{
@@ -66,6 +93,11 @@ function displayLibrary(myLibrary){
         thisBook.classList.add("book");
         thisBook.textContent = myLibrary[i].title;
         shelf.appendChild(thisBook);
+
+        thisBook.addEventListener("click",(e)=>{
+            displayBookInfo(i);
+        })
+
         const removeBookButton = document.createElement('button');
         removeBookButton.classList.add("removeBook");
         removeBookButton.textContent = "X";
@@ -96,8 +128,67 @@ function toggleRead(index){
     displayLibrary(myLibrary);
 }
 
+function displayBookInfo(index){
+    let displayBox = document.getElementById("description");
+    let displayContents = displayBox.children;
+    displayContents[0].textContent = myLibrary[index].title;
+    displayContents[1].textContent = "by "+myLibrary[index].author;
+    displayContents[2].textContent = myLibrary[index].pages+" pages";
+    if(myLibrary[index].read === true){
+        displayContents[3].textContent = "Read";
+    }
+    else{
+        displayContents[3].textContent = "Not yet read";
+    }
+    displayBox.classList.remove("hidden");
+}
+
+function hideBookInfo(){
+    displayBox = document.getElementById("description");
+    displayBox.classList.add("hidden");
+}
+
+function showError(){
+    let titleInput = document.getElementById("title");
+    let authorInput = document.getElementById("author");
+    let pageCountInput = document.getElementById("pageCount");
+    let readInput = document.getElementById("readBook");
+    let errorMessage=document.getElementById("errorMessage");
+    if(titleInput.value===""){
+        errorMessage.textContent = "Please enter a title."
+        return true;
+    }
+    else if(authorInput.value === ""){
+        errorMessage.textContent = "Please enter an author.";
+        return true;
+    }
+    else if(pageCountInput.value===""){
+        errorMessage.textContent = "Please enter a page count.";
+        return true;
+    }
+    else if(readInput.value === ""){
+        errorMessage.textContent = "Please indicate whether the book has been read.";
+        return true;
+    }
+    else{
+        errorMessage.textContent = "";
+        return false;
+    }
+}
+
 newBookButton.forEach(newBookButton => newBookButton.addEventListener('click', (e) => {
-    addBookToLibrary();
+    let titleInput = document.getElementById("title");
+    let authorInput = document.getElementById("author");
+    let pageCountInput = document.getElementById("pageCount");
+    let readInput = document.getElementById("readBook");
+    if(showError()===false){
+        addBookToLibrary();
+        titleInput.value="";
+        authorInput.value="";
+        pageCountInput.value="";
+        readInput.value="";
+    }   
 }))
 
+bindEvents();
 displayLibrary(myLibrary);
